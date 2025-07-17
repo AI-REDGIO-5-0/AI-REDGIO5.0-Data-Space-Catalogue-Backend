@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    # image: cloud-catalog:0.1.0 TODO: change this to send the docker-compose to partners
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud-catalog
+    ports:
+      - "3000:3000"
+    environment:
+      APP_NAME: catalog
+      APP_PORT: 3000
+      APP_LOG_LEVEL: debug
+      DB_NAME: catalog
+      DB_HOST: postgres
+      DB_PORT: 6432
+      DB_USERNAME: postgres
+      DB_PASSWORD: root
+      KC_URL: http://localhost:9090
+      KC_REALM: connector
+      KC_CLIENT_ID: local-cloud-catalog
+      KC_CLIENT_SECRET: rIchCBM1NhEN1hOwWtwkrHApiyJPbOTC
