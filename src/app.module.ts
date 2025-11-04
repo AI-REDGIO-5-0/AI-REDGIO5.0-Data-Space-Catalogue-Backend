@@ -2,7 +2,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CloudCatalogModule } from '../modules/cloud-catalog/cloud-catalog.module';
-import { UsersModule } from '../modules/users/users.module';
+
 import { AppConfig } from './app.config';
 import { IAppConfig } from './app-config.interface';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
@@ -30,7 +30,6 @@ import { APP_GUARD } from '@nestjs/core';
       driver: PostgreSqlDriver,
     }),
     CloudCatalogModule,
-    UsersModule,
     KeycloakConnectModule.registerAsync({
       imports: [ConfigModule.forFeature(AppConfig)],
       inject: [AppConfig.KEY],

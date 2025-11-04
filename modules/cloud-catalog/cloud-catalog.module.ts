@@ -9,7 +9,12 @@ import { TrustLevel } from './entities/trustLevel.entity';
 
 @Module({
   imports: [
-    MikroOrmModule.forFeature([Metadata, Transactions, Organizations, TrustLevel]),
+    MikroOrmModule.forFeature([
+      Metadata,
+      Transactions,
+      Organizations,
+      TrustLevel,
+    ]),
     HttpModule,
   ],
   controllers: [CloudCatalogController],

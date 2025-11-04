@@ -31,6 +31,7 @@ export class CloudCatalogController {
     @AuthenticatedUser(new ParseUserInfoPipe()) user: any,
     @Body() dto: any,
   ) {
+    
     return this.cloudCatalogService.createTrustLevel(user.organizationId, dto);
   }
 
