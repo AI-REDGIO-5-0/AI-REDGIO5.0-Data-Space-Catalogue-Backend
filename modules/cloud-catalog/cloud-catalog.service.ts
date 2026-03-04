@@ -113,16 +113,13 @@ export class CloudCatalogService {
     const userOrganization = await this.organizationsRepo.findOneOrFail({
       id: user.organizationId,
     });
-console.log('-------User Organization-------');
-console.log(userOrganization)
-console.log('-------User Organization-------');
+
     const accessibleAssets = allAssets.filter((asset) => {
-      console.log('-------Checking Asset-------');
-      console.log(asset.id, asset.title);
-      console.log('-------Checking Asset-------');
       // ✅ Exclude assets belonging to the user or their organization
-      if (String(asset.publisher) === String(user.id) || 
-          String(asset.publisher) === String(user.organizationId)) {
+      if (
+        String(asset.publisher) === String(user.id) ||
+        String(asset.publisher) === String(user.organizationId)
+      ) {
         return false;
       }
 
@@ -146,75 +143,43 @@ console.log('-------User Organization-------');
       const isOrgAllowed =
         policy.organizationIds === undefined ||
         !policy.organizationIds.includes(user.organizationId);
-        console.log('-------User isOrgAllowed-------');
-        console.log(policy.organizationIds)
-        console.log(user.organizationId)
-        console.log(isOrgAllowed)
-        console.log('-------User isOrgAllowed-------');
+
       const category = this.getUsercategory(user);
       const isOrgCategoryAllowed =
         policy.categories.length === 0 ||
         !policy.categories.includes(category.toString());
-        console.log('-------User category-------');
-        console.log(policy.categories)
-        console.log(category.toString())
-        console.log(isOrgCategoryAllowed)
-        console.log('-------User category-------');
+
       const isSizeAllowed =
         policy.sizes.length === 0 ||
         !policy.sizes.includes(userOrganization.size.toString());
-        console.log('-------User sizes-------');
-        console.log(policy.sizes)
-        console.log(userOrganization.size.toString())
-        console.log(isSizeAllowed)
-        console.log('-------User sizes-------');
+
       const isDomainAllowed =
         policy.domains.length === 0 ||
         !policy.domains.includes(userOrganization.sector);
-        console.log('-------User isDomainAllowed-------');
-        console.log(policy.countries)
-        console.log(userOrganization.sector)
-        console.log(isDomainAllowed)
-        console.log('-------User isDomainAllowed-------');
+
       const isCountryAllowed =
         policy.countries.length === 0 ||
         !policy.countries.includes(userOrganization.country.toString());
-        console.log('-------User isCountryAllowed-------');
-        console.log(policy.countries)
-        console.log(userOrganization.country.toString())
-        console.log(isCountryAllowed)
-        console.log('-------User isCountryAllowed-------');
+
       // 💡 Trust Level Check
       const requiredTrust = policy.trustLevel;
       const ownerOrgId = user.organizationId;
-console.log(requiredTrust);
-console.log(ownerOrgId);
+
       const hasRequiredTrust =
-        requiredTrust === undefined || requiredTrust === null ||
+        requiredTrust === undefined ||
+        requiredTrust === null ||
         (trustMap[ownerOrgId] !== undefined &&
           trustMap[ownerOrgId] <= requiredTrust);
-          console.log('-------User hasRequiredTrust-------');
-          console.log(requiredTrust);
-          console.log('-------User return-------');
-          console.log(asset.title)
-          console.log((isOrgAllowed??true) &&
-          (isOrgCategoryAllowed??true) &&
-          (isSizeAllowed??true) &&
-          (isDomainAllowed??true) &&
-          (isCountryAllowed??true) &&
-          (hasRequiredTrust??true))
+
       return (
-        (isOrgAllowed??true) &&
-        (isOrgCategoryAllowed??true) &&
-        (isSizeAllowed??true) &&
-        (isDomainAllowed??true) &&
-        (isCountryAllowed??true) &&
-        (hasRequiredTrust??true)
+        (isOrgAllowed ?? true) &&
+        (isOrgCategoryAllowed ?? true) &&
+        (isSizeAllowed ?? true) &&
+        (isDomainAllowed ?? true) &&
+        (isCountryAllowed ?? true) &&
+        (hasRequiredTrust ?? true)
       );
     });
-    console.log('-------Accessible Assets-------');
-    console.log(accessibleAssets);
-    console.log('-------Accessible Assets-------');
 
     return accessibleAssets;
   }
@@ -286,9 +251,8 @@ console.log(ownerOrgId);
       },
       {
         populate: ['receivedTrustLevels', 'receivedTrustLevels.source'],
-      }
+      },
     );
-
 
     return organizations.map((org) => {
       const trustLevel = org.receivedTrustLevels

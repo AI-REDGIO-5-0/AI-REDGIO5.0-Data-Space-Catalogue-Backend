@@ -10,7 +10,6 @@ import {
 import { CloudCatalogService } from './cloud-catalog.service';
 import { ParseUserInfoPipe } from 'src/pipes/user-info.pipe';
 import { AuthenticatedUser } from 'nest-keycloak-connect';
-import { AuthToken } from 'src/decorators';
 
 @Controller('cloud-catalog')
 export class CloudCatalogController {
@@ -31,7 +30,6 @@ export class CloudCatalogController {
     @AuthenticatedUser(new ParseUserInfoPipe()) user: any,
     @Body() dto: any,
   ) {
-    
     return this.cloudCatalogService.createTrustLevel(user.organizationId, dto);
   }
 
